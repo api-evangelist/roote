@@ -1,0 +1,30 @@
+aid: roote
+name: ROOTE
+description: 'ROOTE is a company surfaced via the API Evangelist harvest backlog (source: new-submission)
+  and added to the network as a stub for full-pipeline profiling.'
+url: https://raw.githubusercontent.com/api-evangelist/roote/refs/heads/main/apis.yml
+x-type: company
+x-source: harvest:new-submission
+x-tier: stub
+x-tier-reason: harvest
+specificationVersion: '0.20'
+created: '2026-10-05'
+modified: '2026-10-05'
+tags:
+- Company
+apis: []
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
+- FN: APIs.json
+  email: info@apis.io
+common:
+- type: Website
+  url: https://roote.ai
+- type: Documentation
+  url: https://doc.roote.ai
+x-submission-notes: French-language marketing site; slug 'roote' (not a common word).
+x-submission-probe: api.roote.ai/openapi.json 200 (OAS 3.1, 19 paths incl. /v1/nearby); /health 200 JSON
+  ok; invented API path 404 JSON NOT_FOUND; doc.roote.ai 200; roote.ai root is an SPA (soft-200 on invented
+  path).
+x-submitted-by: contact@roote.ai (apis.io/add, 2026-10-04T06:34:24.078Z)
