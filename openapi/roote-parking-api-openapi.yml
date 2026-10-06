@@ -1,0 +1,371 @@
+openapi: 3.2.0
+info:
+  title: ROOTE Parking API
+  version: 2.0.0
+  description: Worldwide live mobility near a coordinate.
+servers:
+- url: https://api.roote.ai
+  description: ROOTE API
+tags:
+- name: Parking
+paths:
+  /v1/parking/nearby:
+    get:
+      operationId: getNearbyParking
+      security:
+      - bearerAuth: []
+      summary: Find nearby parking
+      description: Returns Google Places parking POIs normalized by ROOTE. Google attribution is mandatory for consumers.
+      parameters:
+      - name: lat
+        in: query
+        required: true
+        schema:
+          type: number
+          minimum: -90
+          maximum: 90
+        description: Latitude of query_origin
+      - name: lon
+        in: query
+        required: true
+        schema:
+          type: number
+          minimum: -180
+          maximum: 180
+        description: Longitude of query_origin
+      - name: language
+        in: query
+        schema:
+          type: string
+        description: Preferred Google result language
+      - name: radius
+        in: query
+        required: false
+        schema:
+          type: number
+          exclusiveMinimum: 0
+          default: 1500
+        description: Requested metres; values above 10000 are clamped to 10000
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 20
+        description: Requested count; values above the Google Nearby Search maximum of 20 are clamped to 20
+      - name: debug
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        description: Include safe provider, cache and applied-limit diagnostics
+      - name: token
+        in: query
+        deprecated: true
+        schema:
+          type: string
+        description: Compatibility API token; prefer Authorization Bearer.
+      responses:
+        '200':
+          description: Nearby parking results
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - status
+                - query_origin
+                - radius
+                - total
+                - results
+                - attribution
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - success
+                    - empty
+                    - partial
+                  message:
+                    type: string
+                  query_origin:
+                    type: object
+                    required:
+                    - lat
+                    - lon
+                    properties:
+                      lat:
+                        type: number
+                      lon:
+                        type: number
+                  radius:
+                    type: number
+                    maximum: 10000
+                  total:
+                    type: integer
+                    minimum: 0
+                  results:
+                    type: array
+                    maxItems: 20
+                    items:
+                      type: object
+                      required:
+                      - id
+                      - type
+                      - service_type
+                      - name
+                      - location
+                      - distance_meters
+                      - attributes
+                      - source_id
+                      - source_type
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          const: service
+                        service_type:
+                          type: string
+                          const: parking
+                        provider:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            name:
+                              type: string
+                        external_id:
+                          type: string
+                        name:
+                          type: string
+                        location:
+                          type: object
+                          required:
+                          - lat
+                          - lon
+                          properties:
+                            lat:
+                              type: number
+                            lon:
+                              type: number
+                        distance_meters:
+                          type: integer
+                          minimum: 0
+                        attributes:
+                          type: object
+                          required:
+                          - google_place_id
+                          - types
+                          - open_status
+                          - parking
+                          properties:
+                            google_place_id:
+                              type: string
+                            address:
+                              type: string
+                            primary_type:
+                              type: string
+                              enum:
+                              - parking
+                              - parking_garage
+                              - parking_lot
+                            types:
+                              type: array
+                              items:
+                                type: string
+                            open_status:
+                              type: string
+                              enum:
+                              - open
+                              - closed
+                              - unknown
+                            opening_hours:
+                              type: array
+                              items:
+                                type: string
+                            google_maps_uri:
+                              type: string
+                            parking:
+                              type: object
+                              required:
+                              - kind
+                              - features
+                              properties:
+                                kind:
+                                  type: string
+                                  enum:
+                                  - parking
+                                  - garage
+                                  - lot
+                                features:
+                                  type: array
+                                  items:
+                                    type: string
+                                    enum:
+                                    - free_parking
+                                    - paid_parking
+                                    - free_street_parking
+                                    - paid_street_parking
+                                    - valet_parking
+                                    - free_garage_parking
+                                    - paid_garage_parking
+                        source_id:
+                          type: string
+                          const: google
+                        source_type:
+                          type: string
+                          const: partner_api
+                  attribution:
+                    type: object
+                    required:
+                    - provider
+                    - display_name
+                    - required
+                    properties:
+                      provider:
+                        type: string
+                        const: Google
+                      display_name:
+                        type: string
+                        const: Google
+                      required:
+                        type: boolean
+                        const: true
+                  debug:
+                    type: object
+                    description: Internal provider diagnostics returned only when debug=true.
+                    properties:
+                      providers:
+                        type: object
+                        additionalProperties:
+                          type: object
+                          required:
+                          - status
+                          - raw_count
+                          - returned_count
+                          properties:
+                            status:
+                              type: string
+                              enum:
+                              - ok
+                              - timeout
+                              - error
+                              - unauthorized
+                              - unavailable
+                            raw_count:
+                              type: integer
+                              minimum: 0
+                            returned_count:
+                              type: integer
+                              minimum: 0
+                      provider_calls:
+                        type: integer
+                      cache:
+                        type: string
+                        enum:
+                        - hit
+                        - miss
+                        - partial
+                      requested_radius:
+                        type: number
+                      applied_radius:
+                        type: number
+                      requested_limit:
+                        type: integer
+                      applied_limit:
+                        type: integer
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '401':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '402':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '403':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '429':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '503':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+      tags:
+      - Parking
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: rt_live_...

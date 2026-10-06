@@ -1,0 +1,408 @@
+openapi: 3.2.0
+info:
+  title: ROOTE Ride Hailing API
+  version: 2.0.0
+  description: Worldwide live mobility near a coordinate.
+servers:
+- url: https://api.roote.ai
+  description: ROOTE API
+tags:
+- name: Ride Hailing
+paths:
+  /v1/ride-hailing/estimates:
+    get:
+      operationId: getRideHailingEstimates
+      security:
+      - bearerAuth: []
+      summary: Estimate ride-hailing products
+      description: Provider-agnostic A-to-B ride-hailing estimates. Uber and Grab contracts are intentionally disconnected until verified credentials and API documentation are supplied. Provider failures are isolated and diagnostics are exposed only with debug=true.
+      parameters:
+      - name: origin_lat
+        in: query
+        required: true
+        schema:
+          type: number
+          minimum: -90
+          maximum: 90
+        description: Origin latitude
+      - name: origin_lng
+        in: query
+        required: true
+        schema:
+          type: number
+          minimum: -180
+          maximum: 180
+        description: Origin longitude
+      - name: destination_lat
+        in: query
+        required: true
+        schema:
+          type: number
+          minimum: -90
+          maximum: 90
+        description: Destination latitude
+      - name: destination_lng
+        in: query
+        required: true
+        schema:
+          type: number
+          minimum: -180
+          maximum: 180
+        description: Destination longitude
+      - name: passengers
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 20
+        description: Optional passenger count
+      - name: currency
+        in: query
+        required: false
+        schema:
+          type: string
+          pattern: ^[A-Z]{3}$
+        description: Optional ISO 4217 currency preference
+      - name: locale
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Optional locale preference
+      - name: provider
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Optional provider hint for a configured provider
+      - name: debug
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        description: Include safe provider/cache diagnostics
+      - name: token
+        in: query
+        deprecated: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Normalized ride-hailing estimates or explicit coverage failure
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - status
+                - origin
+                - destination
+                - generated_at
+                - total
+                - results
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - success
+                    - empty
+                    - partial
+                    - error
+                  reason:
+                    type: string
+                    enum:
+                    - NO_ESTIMATE_AVAILABLE
+                    - RIDE_HAILING_UNAVAILABLE
+                    - PROVIDER_UNAVAILABLE
+                    - PROVIDER_TIMEOUT
+                    - PROVIDER_RATE_LIMITED
+                    - PROVIDER_AUTH_ERROR
+                    - OUTSIDE_SERVICE_AREA
+                    - ROUTE_UNSUPPORTED
+                  message:
+                    type: string
+                  origin:
+                    type: object
+                    required:
+                    - lat
+                    - lng
+                    properties:
+                      lat:
+                        type: number
+                      lng:
+                        type: number
+                  destination:
+                    type: object
+                    required:
+                    - lat
+                    - lng
+                    properties:
+                      lat:
+                        type: number
+                      lng:
+                        type: number
+                  generated_at:
+                    type: string
+                    format: date-time
+                  total:
+                    type: integer
+                    minimum: 0
+                  results:
+                    type: object
+                    required:
+                    - estimates
+                    properties:
+                      estimates:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                          - id
+                          - provider
+                          - product_id
+                          - product_name
+                          - mode
+                          - pickup_eta_minutes
+                          - trip_duration_minutes
+                          - distance_meters
+                          - fare
+                          - available
+                          - booking
+                          - freshness
+                          - display_policy
+                          - attribution
+                          properties:
+                            id:
+                              type: string
+                              pattern: ^roote_ride_estimate_
+                            provider:
+                              type: string
+                            product_id:
+                              type: string
+                            product_name:
+                              type: string
+                            mode:
+                              type: string
+                              enum:
+                              - car
+                              - motorcycle
+                              - taxi
+                              - van
+                              - other
+                            pickup_eta_minutes:
+                              type:
+                              - number
+                              - 'null'
+                              minimum: 0
+                            trip_duration_minutes:
+                              type:
+                              - number
+                              - 'null'
+                              minimum: 0
+                            distance_meters:
+                              type:
+                              - number
+                              - 'null'
+                              minimum: 0
+                            fare:
+                              type:
+                              - object
+                              - 'null'
+                              properties:
+                                exact:
+                                  type:
+                                  - number
+                                  - 'null'
+                                  minimum: 0
+                                min:
+                                  type:
+                                  - number
+                                  - 'null'
+                                  minimum: 0
+                                max:
+                                  type:
+                                  - number
+                                  - 'null'
+                                  minimum: 0
+                                currency:
+                                  type: string
+                                  pattern: ^[A-Z]{3}$
+                                estimated:
+                                  type: boolean
+                            available:
+                              type:
+                              - boolean
+                              - 'null'
+                            booking:
+                              type: object
+                              required:
+                              - available
+                              - type
+                              - url
+                              properties:
+                                available:
+                                  type: boolean
+                                type:
+                                  type: string
+                                  enum:
+                                  - deeplink
+                                  - website
+                                  - none
+                                url:
+                                  type:
+                                  - string
+                                  - 'null'
+                            freshness:
+                              type: object
+                              required:
+                              - status
+                              - received_at
+                              - source_updated_at
+                              - valid_until
+                              properties:
+                                status:
+                                  type: string
+                                  enum:
+                                  - fresh
+                                  - stale
+                                  - unknown
+                                received_at:
+                                  type: string
+                                  format: date-time
+                                source_updated_at:
+                                  type:
+                                  - string
+                                  - 'null'
+                                  format: date-time
+                                valid_until:
+                                  type:
+                                  - string
+                                  - 'null'
+                                  format: date-time
+                            display_policy:
+                              type: object
+                              required:
+                              - competitive_comparison
+                              - attribution_required
+                              - deeplink_required
+                              - branding_required
+                              properties:
+                                competitive_comparison:
+                                  type: string
+                                  enum:
+                                  - allowed
+                                  - prohibited
+                                  - unknown
+                                attribution_required:
+                                  type:
+                                  - boolean
+                                  - 'null'
+                                deeplink_required:
+                                  type:
+                                  - boolean
+                                  - 'null'
+                                branding_required:
+                                  type:
+                                  - boolean
+                                  - 'null'
+                            attribution:
+                              type:
+                              - string
+                              - 'null'
+                  debug:
+                    type: object
+                    description: Safe provider, cache and call-count diagnostics returned only with debug=true.
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '401':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '402':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '403':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '429':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '503':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+      tags:
+      - Ride Hailing
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: rt_live_...

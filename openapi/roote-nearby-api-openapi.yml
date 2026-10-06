@@ -1,0 +1,214 @@
+openapi: 3.2.0
+info:
+  title: ROOTE Nearby API
+  version: 2.0.0
+  description: Worldwide live mobility near a coordinate.
+servers:
+- url: https://api.roote.ai
+  description: ROOTE API
+tags:
+- name: Nearby
+paths:
+  /v1/nearby:
+    get:
+      operationId: getGlobalNearby
+      security:
+      - {}
+      - bearerAuth: []
+      summary: Search all nearby ROOTE families
+      description: Global in-process orchestrator. With no filters it queries mobility, transit and services. families is authoritative; otherwise modes and types infer eligible families. One credit is settled for each successful, empty or genuinely partial family; a total technical family failure is refunded.
+      parameters:
+      - name: lat
+        in: query
+        required: true
+        schema:
+          type: number
+          minimum: -90
+          maximum: 90
+        description: Latitude
+      - name: lon
+        in: query
+        required: true
+        schema:
+          type: number
+          minimum: -180
+          maximum: 180
+        description: Longitude
+      - name: families
+        in: query
+        required: false
+        schema:
+          type: string
+        description: mobility,transit,services
+      - name: modes
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Mobility and Transit categories
+      - name: types
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Service categories
+      - name: radius
+        in: query
+        required: false
+        schema:
+          type: number
+          minimum: 1
+          default: 1000
+        description: Requested radius
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 300
+        description: Global result limit
+      - name: family_limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Per-family result limit
+      - name: debug
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+        description: Include family diagnostics
+      responses:
+        '200':
+          description: Global nearby response
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - status
+                - query_origin
+                - radius
+                - total
+                - families
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - success
+                    - empty
+                    - partial
+                    - error
+                  query_origin:
+                    type: object
+                    required:
+                    - lat
+                    - lon
+                    properties:
+                      lat:
+                        type: number
+                      lon:
+                        type: number
+                  radius:
+                    type: number
+                  total:
+                    type: integer
+                  families:
+                    type: object
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '401':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '402':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '403':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '429':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '503':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+      tags:
+      - Nearby
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: rt_live_...

@@ -1,0 +1,246 @@
+openapi: 3.2.0
+info:
+  title: ROOTE Capabilities API
+  version: 2.0.0
+  description: Worldwide live mobility near a coordinate.
+servers:
+- url: https://api.roote.ai
+  description: ROOTE API
+tags:
+- name: Capabilities
+paths:
+  /v1/capabilities:
+    post:
+      operationId: runCapability
+      security:
+      - bearerAuth: []
+      summary: Execute a ROOTE Contract 1.0.0 capability
+      description: Strict Contract 1.0.0 boundary. search_mobility uses the existing provider orchestration; read_dataset returns the exact stored id/version without provider calls.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - contract_version
+              - correlation
+              - request
+              - freshness_policy
+              properties:
+                contract_version:
+                  type: string
+                  const: 1.0.0
+                correlation:
+                  type: object
+                  additionalProperties: false
+                  required:
+                  - conversation_id
+                  - interaction_id
+                  - request_id
+                  - parent_request_id
+                  - turn_id
+                request:
+                  oneOf:
+                  - type: object
+                    additionalProperties: false
+                    required:
+                    - capability
+                    - args
+                    properties:
+                      capability:
+                        type: string
+                        const: search_mobility
+                      args:
+                        type: object
+                  - type: object
+                    additionalProperties: false
+                    required:
+                    - capability
+                    - args
+                    properties:
+                      capability:
+                        type: string
+                        const: read_dataset
+                      args:
+                        type: object
+                        required:
+                        - id
+                        - version
+                        properties:
+                          id:
+                            type: string
+                          version:
+                            type: string
+                freshness_policy:
+                  type:
+                  - string
+                  - 'null'
+                  enum:
+                  - accept_valid_cache
+                  - revalidate
+                  - null
+      responses:
+        '200':
+          description: Canonical CapabilityResult
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - contract_version
+                - correlation
+                - observation
+                properties:
+                  contract_version:
+                    type: string
+                    const: 1.0.0
+                  correlation:
+                    type: object
+                  observation:
+                    oneOf:
+                    - type: object
+                      required:
+                      - dataset_id
+                      - scope
+                      - query_parameters
+                      - received_at
+                      - provenance
+                      - freshness
+                      properties:
+                        dataset_id:
+                          type: string
+                          pattern: ^nearby_
+                        scope:
+                          type: string
+                          const: mobility.nearby
+                        query_parameters:
+                          type: object
+                        received_at:
+                          type:
+                          - string
+                          - 'null'
+                          format: date-time
+                        provenance:
+                          type: array
+                          items:
+                            type: object
+                        freshness:
+                          type: object
+                          required:
+                          - fresh
+                          - stale
+                          - unknown
+                          - realtime_reliable
+                          properties:
+                            fresh:
+                              type: integer
+                            stale:
+                              type: integer
+                            unknown:
+                              type: integer
+                            realtime_reliable:
+                              type: boolean
+                    - type: object
+                      required:
+                      - contract_version
+                      - status
+                      - query
+                      - delivered_at
+                      - errors
+                      properties:
+                        contract_version:
+                          type: string
+                          const: 1.0.0
+                        status:
+                          type: string
+                          const: error
+                        query:
+                          type:
+                          - object
+                          - 'null'
+                        delivered_at:
+                          type: string
+                          format: date-time
+                        errors:
+                          type: array
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '404':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '410':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '429':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '503':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+      tags:
+      - Capabilities
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: rt_live_...

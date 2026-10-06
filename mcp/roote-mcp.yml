@@ -1,0 +1,9 @@
+---
+generated: '2026-10-05'
+method: probed
+source: https://mcp.roote.ai/mcp
+deployment:
+  mode: remote
+  endpoint: https://mcp.roote.ai/mcp
+  auth: none
+  verified: probed

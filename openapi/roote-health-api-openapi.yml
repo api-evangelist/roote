@@ -1,0 +1,41 @@
+openapi: 3.2.0
+info:
+  title: ROOTE Health API
+  version: 2.0.0
+  description: Worldwide live mobility near a coordinate.
+servers:
+- url: https://api.roote.ai
+  description: ROOTE API
+tags:
+- name: Health
+paths:
+  /health:
+    get:
+      operationId: health
+      security: []
+      summary: API health
+      responses:
+        '200':
+          description: Running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    const: ok
+                  service:
+                    type: string
+                  version:
+                    type: string
+                  time:
+                    type: string
+      tags:
+      - Health
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: rt_live_...

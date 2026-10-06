@@ -1,0 +1,31 @@
+openapi: 3.2.0
+info:
+  title: ROOTE Openapi.json API
+  version: 2.0.0
+  description: Worldwide live mobility near a coordinate.
+servers:
+- url: https://api.roote.ai
+  description: ROOTE API
+tags:
+- name: Openapi.json
+paths:
+  /openapi.json:
+    get:
+      operationId: openApi
+      security: []
+      summary: OpenAPI document
+      responses:
+        '200':
+          description: OpenAPI 3.1 document
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - Openapi.json
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: rt_live_...

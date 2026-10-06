@@ -1,30 +1,235 @@
 aid: roote
+
 name: ROOTE
-description: 'ROOTE is a company surfaced via the API Evangelist harvest backlog (source: new-submission)
-  and added to the network as a stub for full-pipeline profiling.'
+
+description: ROOTE provides a French-language mobility platform that offers live mobility data, geocoding, nearby transport options, and urban
+  services via a REST API. The service targets developers building AI agents, mobile apps, and location‑based products, delivering real‑time information
+  on transport options, routes, and availability across multiple cities.
+
 url: https://raw.githubusercontent.com/api-evangelist/roote/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: harvest:new-submission
-x-tier: stub
-x-tier-reason: harvest
+
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-10-05 (modular-v1; was harvest)
+
 specificationVersion: '0.20'
+
 created: '2026-10-05'
+
 modified: '2026-10-05'
+
 tags:
-- Company
-apis: []
+- Mobility
+- API
+- French
+- AI
+- Transportation
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
 common:
+- type: AgenticAccess
+  url: agentic-access/roote-agentic-access.yml
+- type: Spectral
+  url: rules/roote-rules.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: ChangeLog
+  url: changelog/roote-changelog.yml
+- type: Authentication
+  url: authentication/roote-authentication.yml
+- type: ErrorCatalog
+  url: errors/roote-problem-types.yml
+- type: Conformance
+  url: conformance/roote-conformance.yml
+- type: LLMsTxt
+  url: llms/roote-llms.txt
+- type: MCPServer
+  url: mcp/roote-mcp.yml
+- type: Hosts
+  url: hosts/roote-hosts.yml
+- type: Vendors
+  url: vendors/roote-vendors.yml
+- type: DeveloperPortal
+  url: https://doc.roote.ai\\\
+- type: APIReference
+  url: https://doc.roote.ai/resources/changelog
+- type: DomainSecurity
+  url: security/roote-domain-security.yml
 - type: Website
   url: https://roote.ai
 - type: Documentation
   url: https://doc.roote.ai
+- type: GettingStarted
+  url: https://doc.roote.ai/getting-started
+
+apis:
+- aid: roote:roote-capabilities-api
+  name: ROOTE Capabilities API
+  description: The Capabilities API from ROOTE — 1 operation(s) for capabilities.
+  humanURL: https://doc.roote.ai
+  baseURL: https://api.roote.ai
+  tags:
+  - Capabilities
+  properties:
+  - type: OpenAPI
+    url: openapi/roote-capabilities-api-openapi.yml
+- aid: roote:roote-changelog-json-api
+  name: ROOTE Changelog.json API
+  description: The Changelog.json API from ROOTE — 1 operation(s) for changelog.json.
+  humanURL: https://doc.roote.ai
+  baseURL: https://api.roote.ai
+  tags:
+  - Changelog.json
+  properties:
+  - type: OpenAPI
+    url: openapi/roote-changelog-json-api-openapi.yml
+- aid: roote:roote-charging-api
+  name: ROOTE Charging API
+  description: The Charging API from ROOTE — 1 operation(s) for charging.
+  humanURL: https://doc.roote.ai
+  baseURL: https://api.roote.ai
+  tags:
+  - Charging
+  properties:
+  - type: OpenAPI
+    url: openapi/roote-charging-api-openapi.yml
+- aid: roote:roote-geocode-api
+  name: ROOTE Geocode API
+  description: The Geocode API from ROOTE — 1 operation(s) for geocode.
+  humanURL: https://doc.roote.ai
+  baseURL: https://api.roote.ai
+  tags:
+  - Geocode
+  properties:
+  - type: OpenAPI
+    url: openapi/roote-geocode-api-openapi.yml
+- aid: roote:roote-health-api
+  name: ROOTE Health API
+  description: The Health API from ROOTE — 1 operation(s) for health.
+  humanURL: https://doc.roote.ai
+  baseURL: https://api.roote.ai
+  tags:
+  - Health
+  properties:
+  - type: OpenAPI
+    url: openapi/roote-health-api-openapi.yml
+- aid: roote:roote-mobility-api
+  name: ROOTE Mobility API
+  description: The Mobility API from ROOTE — 1 operation(s) for mobility.
+  humanURL: https://doc.roote.ai
+  baseURL: https://api.roote.ai
+  tags:
+  - Mobility
+  properties:
+  - type: OpenAPI
+    url: openapi/roote-mobility-api-openapi.yml
+- aid: roote:roote-nearby-api
+  name: ROOTE Nearby API
+  description: The Nearby API from ROOTE — 1 operation(s) for nearby.
+  humanURL: https://doc.roote.ai
+  baseURL: https://api.roote.ai
+  tags:
+  - Nearby
+  properties:
+  - type: OpenAPI
+    url: openapi/roote-nearby-api-openapi.yml
+- aid: roote:roote-openapi-json-api
+  name: ROOTE Openapi.json API
+  description: The Openapi.json API from ROOTE — 1 operation(s) for openapi.json.
+  humanURL: https://doc.roote.ai
+  baseURL: https://api.roote.ai
+  tags:
+  - Openapi.json
+  properties:
+  - type: OpenAPI
+    url: openapi/roote-openapi-json-api-openapi.yml
+- aid: roote:roote-parking-api
+  name: ROOTE Parking API
+  description: The Parking API from ROOTE — 1 operation(s) for parking.
+  humanURL: https://doc.roote.ai
+  baseURL: https://api.roote.ai
+  tags:
+  - Parking
+  properties:
+  - type: OpenAPI
+    url: openapi/roote-parking-api-openapi.yml
+- aid: roote:roote-place-search-api
+  name: ROOTE Place Search API
+  description: The Place Search API from ROOTE — 1 operation(s) for place search.
+  humanURL: https://doc.roote.ai
+  baseURL: https://api.roote.ai
+  tags:
+  - Place Search
+  properties:
+  - type: OpenAPI
+    url: openapi/roote-place-search-api-openapi.yml
+- aid: roote:roote-reverse-geocode-api
+  name: ROOTE Reverse Geocode API
+  description: The Reverse Geocode API from ROOTE — 1 operation(s) for reverse geocode.
+  humanURL: https://doc.roote.ai
+  baseURL: https://api.roote.ai
+  tags:
+  - Reverse Geocode
+  properties:
+  - type: OpenAPI
+    url: openapi/roote-reverse-geocode-api-openapi.yml
+- aid: roote:roote-ride-hailing-api
+  name: ROOTE Ride Hailing API
+  description: The Ride Hailing API from ROOTE — 1 operation(s) for ride hailing.
+  humanURL: https://doc.roote.ai
+  baseURL: https://api.roote.ai
+  tags:
+  - Ride Hailing
+  properties:
+  - type: OpenAPI
+    url: openapi/roote-ride-hailing-api-openapi.yml
+- aid: roote:roote-services-api
+  name: ROOTE Services API
+  description: The Services API from ROOTE — 1 operation(s) for services.
+  humanURL: https://doc.roote.ai
+  baseURL: https://api.roote.ai
+  tags:
+  - Services
+  properties:
+  - type: OpenAPI
+    url: openapi/roote-services-api-openapi.yml
+- aid: roote:roote-transit-api
+  name: ROOTE Transit API
+  description: The Transit API from ROOTE — 5 operation(s) for transit.
+  humanURL: https://doc.roote.ai
+  baseURL: https://api.roote.ai
+  tags:
+  - Transit
+  properties:
+  - type: OpenAPI
+    url: openapi/roote-transit-api-openapi.yml
+- aid: roote:roote-usage-api
+  name: ROOTE Usage API
+  description: The Usage API from ROOTE — 1 operation(s) for usage.
+  humanURL: https://doc.roote.ai
+  baseURL: https://api.roote.ai
+  tags:
+  - Usage
+  properties:
+  - type: OpenAPI
+    url: openapi/roote-usage-api-openapi.yml
 x-submission-notes: French-language marketing site; slug 'roote' (not a common word).
-x-submission-probe: api.roote.ai/openapi.json 200 (OAS 3.1, 19 paths incl. /v1/nearby); /health 200 JSON
-  ok; invented API path 404 JSON NOT_FOUND; doc.roote.ai 200; roote.ai root is an SPA (soft-200 on invented
-  path).
+
+x-submission-probe: api.roote.ai/openapi.json 200 (OAS 3.1, 19 paths incl. /v1/nearby); /health 200 JSON ok; invented API path 404 JSON NOT_FOUND;
+  doc.roote.ai 200; roote.ai root is an SPA (soft-200 on invented path).
+
 x-submitted-by: contact@roote.ai (apis.io/add, 2026-10-04T06:34:24.078Z)
+x-enrichment:
+  date: '2026-10-05'
+  status: enriched
+  artifacts_added: 19
+  pass: modular-v1
+  engine: identity=local,contract=local,surfaces=local,docs=local,regulatory=local

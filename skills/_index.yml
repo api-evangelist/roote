@@ -1,0 +1,12 @@
+generated: '2026-10-05'
+method: generated
+generator: extract-docs-artifacts.py skills (local)
+source: openapi/roote-openapi.json
+skills:
+- file: skills/roote-find-nearby-transport-departures.md
+  name: roote-find-nearby-transport-departures
+  api: openapi/roote-openapi.json
+  operations:
+  - getNearbyTransport
+  - getTransportStation
+  - getTransportDepartures

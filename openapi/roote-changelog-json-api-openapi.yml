@@ -1,0 +1,108 @@
+openapi: 3.2.0
+info:
+  title: ROOTE Changelog.json API
+  version: 2.0.0
+  description: Worldwide live mobility near a coordinate.
+servers:
+- url: https://api.roote.ai
+  description: ROOTE API
+tags:
+- name: Changelog.json
+paths:
+  /changelog.json:
+    get:
+      operationId: getChangelog
+      security: []
+      summary: Read the canonical ROOTE API release changelog
+      description: Public, unmetered and provider-independent release history. Supports ETag conditional requests and a bounded cache policy.
+      responses:
+        '200':
+          description: Canonical changelog schema version 1
+          headers:
+            ETag:
+              schema:
+                type: string
+            Cache-Control:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required:
+                - version
+                - updated_at
+                - entries
+                properties:
+                  version:
+                    type: string
+                    const: '1'
+                  updated_at:
+                    type: string
+                    format: date-time
+                  entries:
+                    type: array
+                    maxItems: 200
+                    description: Canonical history ordered by published_at descending, then stable id.
+                    items:
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - id
+                      - published_at
+                      - api_version
+                      - type
+                      - title
+                      - description
+                      - breaking
+                      - links
+                      properties:
+                        id:
+                          type: string
+                          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+                        published_at:
+                          type: string
+                          format: date-time
+                        api_version:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - feature
+                          - improvement
+                          - fix
+                          - breaking
+                          - deprecation
+                        title:
+                          type: string
+                        description:
+                          type: string
+                        breaking:
+                          type: boolean
+                        links:
+                          type: array
+                          maxItems: 10
+                          items:
+                            type: object
+                            additionalProperties: false
+                            required:
+                            - label
+                            - url
+                            properties:
+                              label:
+                                type: string
+                              url:
+                                type: string
+                                format: uri
+                                pattern: ^https://
+        '304':
+          description: The canonical changelog has not changed.
+      tags:
+      - Changelog.json
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: rt_live_...

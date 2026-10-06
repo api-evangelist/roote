@@ -1,0 +1,256 @@
+openapi: 3.2.0
+info:
+  title: ROOTE Reverse Geocode API
+  version: 2.0.0
+  description: Worldwide live mobility near a coordinate.
+servers:
+- url: https://api.roote.ai
+  description: ROOTE API
+tags:
+- name: Reverse Geocode
+paths:
+  /v1/reverse-geocode:
+    get:
+      operationId: reverseGeocode
+      security:
+      - {}
+      - bearerAuth: []
+      summary: Reverse geocode coordinates
+      description: Requires a valid ROOTE API token with data:read.
+      parameters:
+      - name: lat
+        in: query
+        required: true
+        schema:
+          type: number
+          minimum: -90
+          maximum: 90
+      - name: lon
+        in: query
+        required: true
+        schema:
+          type: number
+          minimum: -180
+          maximum: 180
+      - name: language
+        in: query
+        schema:
+          type: string
+      - name: token
+        in: query
+        deprecated: true
+        schema:
+          type: string
+        description: Compatibility API token; prefer Authorization Bearer.
+      responses:
+        '200':
+          description: Up to five ordered geographic candidates. The first result is the provider's highest-ranked candidate, not a guaranteed unique match. No results returns HTTP 200 and an empty array.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - results
+                - meta
+                properties:
+                  results:
+                    type: array
+                    maxItems: 5
+                    description: Geographic candidates in provider relevance order.
+                    items:
+                      type: object
+                      required:
+                      - roote_id
+                      - name
+                      - label
+                      - type
+                      - location
+                      - address
+                      - source_id
+                      - source_place_id
+                      properties:
+                        roote_id:
+                          type: 'null'
+                        name:
+                          type: string
+                        label:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - address
+                          - street
+                          - locality
+                          - city
+                          - neighborhood
+                          - region
+                          - country
+                          - poi
+                          - station
+                          - airport
+                          - railway_station
+                          - transit_station
+                          - establishment
+                          - unknown
+                        location:
+                          type: object
+                          required:
+                          - lat
+                          - lon
+                          properties:
+                            lat:
+                              type: number
+                            lon:
+                              type: number
+                        address:
+                          type: object
+                          properties:
+                            formatted:
+                              type:
+                              - string
+                              - 'null'
+                            street:
+                              type:
+                              - string
+                              - 'null'
+                            street_number:
+                              type:
+                              - string
+                              - 'null'
+                            city:
+                              type:
+                              - string
+                              - 'null'
+                            postal_code:
+                              type:
+                              - string
+                              - 'null'
+                            region:
+                              type:
+                              - string
+                              - 'null'
+                            country:
+                              type:
+                              - string
+                              - 'null'
+                        source_id:
+                          type: string
+                          const: google
+                        source_place_id:
+                          type:
+                          - string
+                          - 'null'
+                        match_quality:
+                          type: string
+                          enum:
+                          - rooftop
+                          - range_interpolated
+                          - geometric_center
+                          - approximate
+                          description: Provider-reported geocoding precision when available; not a ROOTE confidence score.
+                  meta:
+                    type: object
+                    required:
+                    - source
+                    - cache
+                    - total
+                    properties:
+                      source:
+                        type: string
+                      cache:
+                        type: string
+                        enum:
+                        - hit
+                        - miss
+                      total:
+                        type: integer
+                      query:
+                        type: string
+                      origin:
+                        type: object
+                        required:
+                        - lat
+                        - lon
+                        properties:
+                          lat:
+                            type: number
+                          lon:
+                            type: number
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '429':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '502':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '503':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+        '504':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+      tags:
+      - Reverse Geocode
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: rt_live_...

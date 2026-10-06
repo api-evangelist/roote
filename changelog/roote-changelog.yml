@@ -1,0 +1,16 @@
+generated: '2026-10-05'
+method: searched
+generator: extract-docs-artifacts.py (local)
+source: https://doc.roote.ai/resources/changelog
+sources:
+- https://doc.roote.ai/resources/changelog
+entries:
+- breaking: true
+  highlights:
+  - Journey authorization scope separated
+  - Journey planning now requires journey:read while public data and departures remain under data:read.
+  - Existing observed Journey consumers were migrated explicitly.
+  date: '2026-10-04'
+current_version: 2.0.0
+docs: https://doc.roote.ai/resources/changelog
+note: Only one entry is listed on the page.

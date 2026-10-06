@@ -1,0 +1,90 @@
+generated: '2026-10-05'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/roote-openapi.json
+format: custom
+envelope:
+  media_type: application/json
+  schema: null
+coverage:
+  operations: 20
+  statuses_declared: 11
+problems:
+- status: 400
+  title: Bad Request
+  description: Invalid request
+  operations: 17
+  media_types:
+  - application/json
+  schema: null
+- status: 401
+  title: Unauthorized
+  description: Invalid request
+  operations: 12
+  media_types:
+  - application/json
+  schema: null
+- status: 402
+  title: Payment Required
+  description: Invalid request
+  operations: 10
+  media_types:
+  - application/json
+  schema: null
+- status: 403
+  title: Forbidden
+  description: Invalid request
+  operations: 12
+  media_types:
+  - application/json
+  schema: null
+- status: 404
+  title: Not Found
+  description: Invalid request
+  operations: 4
+  media_types:
+  - application/json
+  schema: null
+- status: 409
+  title: Conflict
+  description: Invalid request
+  operations: 2
+  media_types:
+  - application/json
+  schema: null
+- status: 410
+  title: Gone
+  description: Invalid request
+  operations: 1
+  media_types:
+  - application/json
+  schema: null
+- status: 429
+  title: Too Many Requests
+  description: Invalid request
+  operations: 16
+  media_types:
+  - application/json
+  schema: null
+- status: 502
+  title: Bad Gateway
+  description: Invalid request
+  operations: 3
+  media_types:
+  - application/json
+  schema: null
+- status: 503
+  title: Service Unavailable
+  description: Invalid request
+  operations: 15
+  media_types:
+  - application/json
+  schema: null
+- status: 504
+  title: Gateway Timeout
+  description: Invalid request
+  operations: 3
+  media_types:
+  - application/json
+  schema: null

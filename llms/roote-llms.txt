@@ -1,0 +1,51 @@
+# ROOTE Docs
+
+> Official documentation for the ROOTE mobility API, MCP server, map and developer platform.
+> Canonical documentation: https://doc.roote.ai/
+
+# ROOTE Documentation
+
+- [ROOTE Developer Documentation](https://doc.roote.ai/): Build mobility products and AI agents with the ROOTE API, MCP server, interactive map and shared capability platform.
+- [Getting Started](https://doc.roote.ai/getting-started): Choose the right ROOTE interface and start building.
+- [Authentication](https://doc.roote.ai/authentication): ROOTE anonymous and authenticated access.
+- Capabilities
+  - [Capabilities](https://doc.roote.ai/capabilities): Explore what ROOTE can do.
+  - Geography
+    - [Geography](https://doc.roote.ai/capabilities/geography): Addresses, places and coordinates.
+    - [Geocode](https://doc.roote.ai/capabilities/geography/geocode): Resolve addresses into normalized geographic information and coordinates.
+    - [Place Search](https://doc.roote.ai/capabilities/geography/place-search): Search places, businesses and points of interest.
+    - [Reverse Geocode](https://doc.roote.ai/capabilities/geography/reverse-geocode): Convert coordinates into a readable place or address.
+  - Shared Mobility
+    - [Shared Mobility](https://doc.roote.ai/capabilities/shared-mobility): Shared mobility stations and vehicles around a geographic position.
+    - [Nearby Mobility](https://doc.roote.ai/capabilities/shared-mobility/nearby-mobility): Find nearby shared mobility.
+  - Urban Services
+    - [Urban Services](https://doc.roote.ai/capabilities/urban-services): Useful urban services around a geographic position.
+    - [Nearby Services](https://doc.roote.ai/capabilities/urban-services/nearby-services): Find nearby urban services.
+  - [Public Transportation](https://doc.roote.ai/capabilities/public-transportation): Transit discovery, departures, Journey, and freshness semantics.
+- ROOTE API
+  - [ROOTE API](https://doc.roote.ai/roote-api): Use ROOTE Data and Journey capabilities over HTTP.
+  - [API Authentication](https://doc.roote.ai/roote-api/api-authentication): Authenticate ROOTE API requests and understand optional authentication.
+  - [Credits & Limits](https://doc.roote.ai/roote-api/credits-and-limits): ROOTE Free projection, credits, refunds, and request limits.
+  - [Errors](https://doc.roote.ai/roote-api/errors): ROOTE API access and request error reference.
+- ROOTE MCP
+  - [ROOTE MCP](https://doc.roote.ai/roote-mcp): Connect AI agents to the seven ROOTE MCP V1 Data tools.
+  - [Connect ROOTE MCP](https://doc.roote.ai/roote-mcp/connect-roote-mcp): Connect a remote MCP client to ROOTE.
+  - MCP Tools
+    - [MCP Tools](https://doc.roote.ai/roote-mcp/mcp-tools): The exact ROOTE MCP V1 tool inventory.
+    - [geocode](https://doc.roote.ai/roote-mcp/mcp-tools/geocode): MCP geocoding tool.
+    - [place_search](https://doc.roote.ai/roote-mcp/mcp-tools/place_search): MCP place search tool.
+    - [reverse_geocode](https://doc.roote.ai/roote-mcp/mcp-tools/reverse_geocode): MCP reverse geocoding tool.
+    - [nearby](https://doc.roote.ai/roote-mcp/mcp-tools/nearby): MCP global Nearby Data tool.
+    - [mobility_nearby](https://doc.roote.ai/roote-mcp/mcp-tools/mobility_nearby): MCP shared-mobility Data tool.
+    - [transit_nearby](https://doc.roote.ai/roote-mcp/mcp-tools/transit_nearby): MCP nearby public-transport Data tool.
+    - [services_nearby](https://doc.roote.ai/roote-mcp/mcp-tools/services_nearby): MCP nearby urban services tool.
+  - [Errors & Limits](https://doc.roote.ai/roote-mcp/errors-and-limits): ROOTE MCP validation, upstream errors, and operational limits.
+  - [Agent Best Practices](https://doc.roote.ai/roote-mcp/agent-best-practices): Guidance for AI agents using ROOTE MCP.
+- [ROOTE Map](https://doc.roote.ai/map): Open, share and integrate ROOTE Map.
+- [Ask ROOTE](https://doc.roote.ai/ask-roote): ROOTE conversational mobility experience.
+
+- **Resources**
+- [Links](https://doc.roote.ai/resources/links)
+- [Changelog](https://doc.roote.ai/resources/changelog)
+- [Status](https://doc.roote.ai/resources/status)
+- [Providers](https://doc.roote.ai/resources/providers)

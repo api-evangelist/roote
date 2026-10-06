@@ -1,0 +1,21 @@
+generated: '2026-10-05'
+method: searched
+generator: extract-docs-artifacts.py (local)
+source: https://doc.roote.ai/authentication
+sources:
+- https://doc.roote.ai/authentication
+- https://doc.roote.ai/roote-api/api-authentication
+- https://doc.roote.ai/getting-started
+description: Authentication schemes for ROOTE API
+schemes:
+- type: apiKey
+  name: Bearer token in query
+  evidence: Endpoints that explicitly support query authentication may also accept ?token=YOUR_API_TOKEN
+  location: query
+  scopes:
+  - data:read
+  - journey:read
+  how_to_obtain: Create and manage developer access at dev.roote.ai and obtain an API token.
+note: No OAuth2, http-basic, jwt, hmac, mtls, or other schemes are documented. 1 extracted row(s) were dropped because their quote was not on
+  the page.
+docs: https://doc.roote.ai/authentication

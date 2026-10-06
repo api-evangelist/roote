@@ -1,0 +1,135 @@
+openapi: 3.2.0
+info:
+  title: ROOTE Usage API
+  version: 2.0.0
+  description: Worldwide live mobility near a coordinate.
+servers:
+- url: https://api.roote.ai
+  description: ROOTE API
+tags:
+- name: Usage
+paths:
+  /usage/cities:
+    get:
+      operationId: publicCityUsage
+      security: []
+      summary: Public ranking of useful city searches
+      description: Aggregated, privacy-safe usage by stable city identifier. No coordinates, users, projects, tokens or event rows are exposed.
+      parameters:
+      - name: period
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - 24h
+          - 7d
+          - 30d
+          - 90d
+          default: 30d
+        description: Aggregation period
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+        description: Page size
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+        description: Deterministic pagination offset
+      responses:
+        '200':
+          description: Public geographic usage aggregates
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - metric_version
+                - period
+                - updated_at
+                - coverage_started_at
+                - coverage_complete
+                - items
+                - pagination
+                properties:
+                  metric_version:
+                    type: string
+                    const: '1'
+                  period:
+                    type: string
+                  updated_at:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+                  coverage_started_at:
+                    type:
+                    - string
+                    - 'null'
+                    format: date
+                  coverage_complete:
+                    type: boolean
+                  publication_threshold:
+                    type: integer
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                      - city_id
+                      - name
+                      - country
+                      - admin_level
+                      - useful_searches
+                      - requests_with_results
+                      - families
+                      properties:
+                        city_id:
+                          type: string
+                        name:
+                          type: string
+                        country:
+                          type: string
+                        admin_level:
+                          type: string
+                        useful_searches:
+                          type: integer
+                        requests_with_results:
+                          type: integer
+                        families:
+                          type: object
+                          additionalProperties:
+                            type: integer
+                  pagination:
+                    type: object
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+      tags:
+      - Usage
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: rt_live_...
