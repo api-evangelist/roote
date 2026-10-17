@@ -1,7 +1,7 @@
 {
   "provider": "roote",
   "sources": [
-    "roote-openapi.json"
+    "_original/roote-openapi.json"
   ],
   "outputs": [
     "roote-capabilities-api-openapi.yml",
@@ -20,12 +20,11 @@
     "roote-transit-api-openapi.yml",
     "roote-usage-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/roote-openapi.json"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "roote-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "roote-openapi.json: tagged paths GET /health -> Health",
     "roote-openapi.json: tagged paths GET /changelog.json -> Changelog.json",
@@ -62,7 +61,23 @@
     "roote-openapi.json: declared missing tag: Services",
     "roote-openapi.json: declared missing tag: Transit",
     "roote-openapi.json: declared missing tag: Usage",
-    "apis.yml register: written (+15 apis, 15 total)"
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "roote-capabilities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "roote-changelog-json-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "roote-charging-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "roote-geocode-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "roote-health-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "roote-mobility-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "roote-nearby-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "roote-openapi-json-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "roote-parking-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "roote-place-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "roote-reverse-geocode-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "roote-ride-hailing-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "roote-services-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "roote-transit-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "roote-usage-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
